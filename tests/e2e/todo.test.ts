@@ -65,6 +65,13 @@ describe("待辦清單 E2E (Stagehand v4)", () => {
   });
 
   it("observe 先找到動作,act 再零推論重放", async () => {
+    // 每個測試自己準備狀態,不依賴上一個測試的執行結果
+    const [page] = await browser.context.pages();
+    await page.goto(BASE_URL);
+
+    await stagehand.act("在待辦事項輸入框輸入「買牛奶」");
+    await stagehand.act("點擊新增按鈕");
+
     // observe 回傳 Action 物件,餵回 act() 時不再呼叫 LLM
     const { data: actions } = await stagehand.observe(
       "找出「買牛奶」這個待辦事項的完成核取方塊",
@@ -77,6 +84,6 @@ describe("待辦清單 E2E (Stagehand v4)", () => {
       "擷取底部顯示的未完成事項數量",
       z.object({ remaining: z.number() }),
     );
-    expect(data.remaining).toBe(1);
+    expect(data.remaining).toBe(0);
   });
 });
