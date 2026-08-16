@@ -86,4 +86,23 @@ describe("待辦清單 E2E (Stagehand v4)", () => {
     );
     expect(data.remaining).toBe(0);
   });
+
+  it("混用寫法:穩定路段用 locator 零推論,語意目標才交給 AI", async () => {
+    const [page] = await browser.context.pages();
+    await page.goto(BASE_URL);
+
+    // 零推論:結構穩定的輸入框與送出按鈕,直接用 Playwright 風格 API
+    await page.locator(".todo-form input").fill("買牛奶");
+    await page.locator(".todo-form button").click();
+
+    // 有推論 (1 次):「哪一筆的核取方塊」是語意目標,交給 act
+    await stagehand.act("勾選「買牛奶」這個待辦事項的核取方塊");
+
+    // 有推論 (1 次):extract 拿結構化資料給 expect 斷言
+    const { data } = await stagehand.extract(
+      "擷取底部顯示的未完成事項數量",
+      z.object({ remaining: z.number() }),
+    );
+    expect(data.remaining).toBe(0);
+  });
 });
