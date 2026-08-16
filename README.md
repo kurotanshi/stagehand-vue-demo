@@ -34,6 +34,35 @@ pnpm dev
 pnpm test:e2e
 ```
 
+## 測試流程
+
+`pnpm test:e2e` 會由 Vitest 統一管理測試生命週期。測試共用同一組 Vite server、瀏覽器與 Stagehand 實例,但每個案例都會重新載入頁面並自行準備狀態;`vitest.config.ts` 也關閉檔案平行執行,避免瀏覽器操作互相干擾。
+
+```mermaid
+flowchart TD
+    A["pnpm test:e2e"] --> B["Vitest 載入 E2E 測試"]
+    B --> C{"OPENAI_API_KEY 已設定?"}
+    C -- 否 --> Z["拋出錯誤並停止"]
+    C -- 是 --> D["啟動 Vite server<br/>localhost:5199"]
+    D --> E["啟動 headless Chrome / Chromium"]
+    E --> F["建立 Stagehand 與 LLM 模型"]
+
+    F --> T1["測試 1:重新載入頁面"]
+    T1 --> A1["act × 4<br/>以自然語言新增兩筆待辦"]
+    A1 --> X1["extract + Zod<br/>expect 清單與未完成數量"]
+
+    X1 --> T2["測試 2:重新載入並準備狀態"]
+    T2 --> A2["observe 找動作<br/>act 重放 Action"]
+    A2 --> X2["extract + Zod<br/>expect 未完成數量"]
+
+    X2 --> T3["測試 3:重新載入頁面"]
+    T3 --> A3["locator 處理穩定路段<br/>act 處理語意目標"]
+    A3 --> X3["extract + Zod<br/>expect 未完成數量"]
+
+    X3 --> G["關閉 Stagehand、瀏覽器與 Vite server"]
+    G --> H["Vitest 回報測試結果"]
+```
+
 ## 成本說明
 
 測試使用 `openai/gpt-5.6-luna`(輸入 $0.20 / 輸出 $1.20 per 1M tokens)。整份測試約 11 次 LLM 呼叫(三個測試各自獨立準備狀態),單次執行成本遠低於 0.01 美元。想換模型,改 `tests/e2e/todo.test.ts` 裡的 `modelName` 即可(格式是 `provider/model`,前綴必填)。
