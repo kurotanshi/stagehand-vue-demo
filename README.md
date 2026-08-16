@@ -2,7 +2,7 @@
 
 用 [Stagehand v4](https://docs.stagehand.dev/) 對 Vue 3 專案寫 AI 驅動 E2E 測試的最小示範。
 
-這是部落格文章〈[認識 Stagehand:用 AI 操作瀏覽器的自動化框架](https://blog.kurohsu.dev/notes/stagehand-intro.html)〉的配套範例,示範三件事:
+這是部落格文章〈[認識 Stagehand:用自然語言操作瀏覽器的 AI 自動化框架](https://kurohsu.dev/notes/stagehand-intro.html)〉的配套範例,示範三件事:
 
 1. `act()`:用自然語言操作頁面(輸入文字、點按鈕),不寫 selector
 2. `extract()` + Zod schema:用自然語言擷取頁面資料,拿回型別安全的結構化結果
