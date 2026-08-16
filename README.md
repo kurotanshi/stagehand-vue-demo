@@ -35,7 +35,7 @@ pnpm test:e2e
 
 ## 成本說明
 
-測試使用 `openai/gpt-5.6-luna`(輸入 $0.20 / 輸出 $1.20 per 1M tokens)。整份測試約 7 次 LLM 呼叫,單次執行成本遠低於 0.01 美元。想換模型,改 `tests/e2e/todo.test.ts` 裡的 `modelName` 即可(格式是 `provider/model`,前綴必填)。
+測試使用 `openai/gpt-5.6-luna`(輸入 $0.20 / 輸出 $1.20 per 1M tokens)。整份測試約 9 次 LLM 呼叫(兩個測試各自獨立準備狀態),單次執行成本遠低於 0.01 美元。想換模型,改 `tests/e2e/todo.test.ts` 裡的 `modelName` 即可(格式是 `provider/model`,前綴必填)。
 
 ## 檔案導覽
 
