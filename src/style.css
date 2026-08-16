@@ -1,0 +1,74 @@
+:root {
+  font-family: "Helvetica Neue", "PingFang TC", "Noto Sans TC", sans-serif;
+  color: #213547;
+  background-color: #f6f6f4;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.app {
+  width: min(28rem, 90vw);
+  margin-top: 4rem;
+}
+
+h1 {
+  font-size: 1.6rem;
+}
+
+.todo-form {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.todo-form input {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.todo-form button,
+.todo-list .remove {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  background: #3b6ea5;
+  color: #fff;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.todo-list {
+  list-style: none;
+  padding: 0;
+}
+
+.todo-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #e3e3e0;
+}
+
+.todo-list li.done span {
+  text-decoration: line-through;
+  color: #999;
+}
+
+.todo-list .remove {
+  background: #b04a4a;
+  padding: 0.25rem 0.6rem;
+  font-size: 0.85rem;
+}
+
+.summary {
+  color: #666;
+  font-size: 0.9rem;
+}
